@@ -9,5 +9,21 @@
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
                            http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
        ">
-
+    <mvc:annotation-driven/>
+    <context:component-scan base-package="com.jmat.skripsicall.user.entity,
+                                          com.jmat.skripsicall.user.rest.resource,
+                                          com.jmat.skripsicall.user.service"/>
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+    <!-- Transaction Manager-->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>
+    <!--Database setup -->
+    <import resource="context-db.xml"/>
+    <!-- Scan and load SpringData repositories -->
+    <jpa:repositories base-package="com.jmat.skripsicall.user.repository,
+                                    com.jmat.skripsicall.user.repository.impl"
+                      entity-manager-factory-ref="skripsicallEntityManagerFactory"
+                      repository-impl-postfix="Repository"
+                      factory-class="com.jmat.skripsicall.user.repository.impl.BaseRepositoryFactoryBean"
+                    />
+    <context:annotation-config/>
 </beans>
