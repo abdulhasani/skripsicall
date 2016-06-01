@@ -1,0 +1,58 @@
+<configuration>
+    <property name="DEFAULT_PATTERN" value="[%d{ISO8601}][%logger][%-5p] %m%n" />
+  
+    <appender name="FILEDEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<file>logs/debug.log</file>
+	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	    <fileNamePattern>logs/debug.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+	    <timeBasedFileNamingAndTriggeringPolicy
+		class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+		<maxFileSize>5MB</maxFileSize>
+	    </timeBasedFileNamingAndTriggeringPolicy>
+	    <maxHistory>100</maxHistory>
+	</rollingPolicy>
+	<encoder>
+	    <pattern>${DEFAULT_PATTERN}</pattern>
+	</encoder>
+    </appender> 
+  
+    <appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<file>logs/info.log</file>
+	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	    <level>INFO</level>
+	    <onMatch>ACCEPT</onMatch>
+	    <onMismatch>DENY</onMismatch>
+	</filter>	
+	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+	    <!-- rollover daily -->
+	    <fileNamePattern>logs/info.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+	    <timeBasedFileNamingAndTriggeringPolicy
+		class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+		<!-- or whenever the file size reaches 5MB -->
+		<maxFileSize>5MB</maxFileSize>
+	    </timeBasedFileNamingAndTriggeringPolicy>
+	</rollingPolicy>
+	<encoder>
+	    <pattern>${DEFAULT_PATTERN}</pattern>
+	</encoder>
+    </appender> 
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<!-- nopenopenopenopenope, this is cpu hog!
+	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+	    <level>INFO</level>
+	    <onMatch>ACCEPT</onMatch>
+	    <onMismatch>DENY</onMismatch>
+	</filter>
+	-->
+	<encoder>
+	    <pattern>${DEFAULT_PATTERN}</pattern>
+	</encoder>
+    </appender>
+        
+    <root level="info">
+	<appender-ref ref="STDOUT" />
+	<appender-ref ref="FILEINFO" />
+	<appender-ref ref="FILEDEBUG" />
+    </root>
+</configuration>
