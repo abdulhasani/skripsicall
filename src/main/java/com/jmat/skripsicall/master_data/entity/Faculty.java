@@ -14,9 +14,9 @@ import javax.persistence.Table;
 @Table(name = "mtd_faculty")
 public class Faculty extends AbstractEntity{
 
-    @Column(name = "nm_faculty",length = 65)
+    @Column(name = "nm_faculty",length = 65,nullable = false)
     private String nameFaculty;
-    @Column(name = "count_prodi",length = 3)
+    @Column(name = "count_prodi",length = 3,nullable = false)
     private Integer countProdi;
 
     public String getNameFaculty() {

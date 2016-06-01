@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "mtd_prodi")
 public class Prodi extends AbstractEntity{
-    @Column(name = "nm_prodi",length = 65)
+    @Column(name = "nm_prodi",length = 65,nullable = false)
     private String nameProdi;
 
     public String getNameProdi() {
