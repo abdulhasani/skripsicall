@@ -3,13 +3,17 @@ package com.jmat.skripsicall.user.repository.impl;
 
 
 import com.jmat.skripsicall.support.entity.AbstractEntity;
+import com.jmat.skripsicall.user.entity.User;
 import com.jmat.skripsicall.user.repository.BaseRepository;
+import org.joda.time.LocalDateTime;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 
@@ -18,6 +22,8 @@ import java.util.List;
  */
 @NoRepositoryBean
 public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializable> extends SimpleJpaRepository<T ,ID> implements BaseRepository<T, ID> {
+
+    private final LocalDateTime localDateTime=new LocalDateTime();
 
     protected Class<T> entityClass;
 
@@ -45,7 +51,8 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
     }
 
     @Override
-    public void delete(T deleted) {
+    public void delete(T entity) {
+        super.delete(entity);
     }
 
     @Override
@@ -53,6 +60,33 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
         return super.findAll();
    }
 
+    @Override
+    @Transactional(readOnly = false)
+    public T save(T persisted, User cuUser) {
+        Date now=localDateTime.toDate();
+        if(this.entityInformation.isNew(persisted)){
+            persisted.setCreateAt(now);
+        }
+        persisted.setUpdateAt(now);
+        return persisted;
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public Boolean delete(T persisted, User cuUser) {
+        Date now=localDateTime.toDate();
+        persisted.setDeletedAt(now);
+        this.save(persisted);
+        return true;
+    }
+
+    @Override
+    public boolean isDeleted(T persisted) {
+        if(persisted.getDeletedAt()!=null){
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void remove(T persisted) {
