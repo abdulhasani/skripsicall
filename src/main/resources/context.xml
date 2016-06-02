@@ -12,7 +12,10 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.jmat.skripsicall.user.entity,
                                           com.jmat.skripsicall.user.rest.resource,
-                                          com.jmat.skripsicall.user.service"/>
+                                          com.jmat.skripsicall.user.service,
+                                          com.jmat.skripsicall.master_data.entity,
+                                          com.jmat.skripsicall.master_data.rest.resource,
+                                          com.jmat.skripsicall.master_data.service"/>
     <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
     <!-- Transaction Manager-->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>
@@ -20,7 +23,8 @@
     <import resource="context-db.xml"/>
     <!-- Scan and load SpringData repositories -->
     <jpa:repositories base-package="com.jmat.skripsicall.user.repository,
-                                    com.jmat.skripsicall.user.repository.impl"
+                                    com.jmat.skripsicall.user.repository.impl,
+                                    com.jmat.skripsicall.master_data.repository"
                       entity-manager-factory-ref="skripsicallEntityManagerFactory"
                       repository-impl-postfix="Repository"
                       factory-class="com.jmat.skripsicall.user.repository.impl.BaseRepositoryFactoryBean"
