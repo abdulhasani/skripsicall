@@ -1,6 +1,7 @@
 package com.jmat.skripsicall.master_data.wrapper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.jmat.skripsicall.master_data.entity.Faculty;
 
 import java.util.UUID;
 
@@ -11,6 +12,18 @@ public class FacultyWrapper {
     private UUID id;
     private String nameFaculty;
     private Integer countProdi;
+
+    public FacultyWrapper(Faculty entity) {
+        initialAttribut(entity);
+    }
+
+    private void initialAttribut(Faculty entity){
+        if(entity instanceof Faculty){
+            id=entity.getId();
+            nameFaculty=entity.getNameFaculty();
+            countProdi=entity.getCountProdi();
+        }
+    }
 
     @JsonProperty("id")
     public UUID getId() {
