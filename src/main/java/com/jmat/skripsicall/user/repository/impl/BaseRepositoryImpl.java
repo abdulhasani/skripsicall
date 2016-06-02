@@ -65,9 +65,12 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
     public T save(T persisted, User cuUser) {
         Date now=localDateTime.toDate();
         if(this.entityInformation.isNew(persisted)){
-            persisted.setCreateAt(now);
+            persisted.setCreatedById(cuUser.getId());
+            persisted.setCreatedAt(now);
         }
-        persisted.setUpdateAt(now);
+        persisted.setUpdatedById(cuUser.getId());
+        persisted.setUpdatedAt(now);
+        persisted=this.save(persisted);
         return persisted;
     }
 
@@ -75,6 +78,7 @@ public class BaseRepositoryImpl<T extends AbstractEntity, ID extends Serializabl
     @Transactional(readOnly = false)
     public Boolean delete(T persisted, User cuUser) {
         Date now=localDateTime.toDate();
+        persisted.setDeletedById(cuUser.getId());
         persisted.setDeletedAt(now);
         this.save(persisted);
         return true;
