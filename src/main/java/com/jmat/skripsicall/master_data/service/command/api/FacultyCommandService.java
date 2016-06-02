@@ -10,7 +10,7 @@ import com.jmat.skripsicall.user.repository.DatabaseSingleCommandService;
  */
 public interface FacultyCommandService extends DatabaseSingleCommandService<Faculty>{
     public Faculty submit(FacultyWrapper facultyWrapper, User currentUser)throws Exception;
-    public Faculty editSave(FacultyWrapper facultyWrapper,User currentUser);
-    public Faculty remove(FacultyWrapper facultyWrapper);
+    public Faculty editSave(Faculty entity,User currentUser);
+    public void remove(Faculty entity);
 
 }
